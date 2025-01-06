@@ -173,7 +173,7 @@ export const SchedulePage = () => {
       <div className="flex flex-col sm:flex-row justify-between">
         <div>
           <div className="flex gap-2">
-            <div className="min-w-72 mb-6">
+            <div className={`min-w-72 ${showFilter ? "mb-3" : "mb-6"}`}>
               <SelectBoat
                 value={queryParams.params.boatId}
                 onValueChange={(value) =>

@@ -1,15 +1,16 @@
 import { AlertDialogCustom } from "@/components/custom/AlertDialogCustom";
+import { ButtonActionSetting } from "@/components/custom/ButtonActionSetting";
 import { useAuth } from "@/features/auth/contexts/useAuth";
 import { useSignOut } from "@/features/auth/hooks/useSignOut";
 import { toast } from "@/hooks/use-toast";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { pageRoutes } from "@/routes/PageRoutes";
+import { pageRoutes, pathRoutes } from "@/routes/PageRoutes";
+import { LocalStorageHelpers } from "@/utilities/localStorageHelpers";
 import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MobileSideBar } from "./MobileSideBar";
 import { SideBar } from "./SideBar";
-import { LocalStorageHelpers } from "@/utilities/localStorageHelpers";
 
 type BaseLayoutProps = {
   children: React.ReactNode;
@@ -61,12 +62,17 @@ export const BaseLayout = ({ children }: BaseLayoutProps) => {
     }
   }, [authState.routePosition]);
 
+  const onClickNavigation = (path: string) => {
+    if (path !== authState.routePosition) {
+      setRoutePosition(path);
+      navigate(path);
+    }
+  };
+
   return (
     <div className="flex h-screen">
       {/* SIDEBAR */}
-      {isAboveSmallScreen && (
-        <SideBar onSignOut={() => setOpenAlertDialogSignOut(true)} />
-      )}
+      {isAboveSmallScreen && <SideBar onClickNavigation={onClickNavigation} />}
 
       {/* MOBILE SIDEBAR */}
       {!isAboveSmallScreen && isMobileSidebarOpen && (
@@ -77,6 +83,7 @@ export const BaseLayout = ({ children }: BaseLayoutProps) => {
           <MobileSideBar
             closeSideBar={() => setIsMobileSidebarOpen(false)}
             onSignOut={() => setOpenAlertDialogSignOut(true)}
+            onClickNavigation={onClickNavigation}
           />
         </div>
       )}
@@ -88,12 +95,21 @@ export const BaseLayout = ({ children }: BaseLayoutProps) => {
             !isAboveSmallScreen && "justify-between"
           }`}
         >
-          <p className="font-bold text-2xl">
-            {
-              pageRoutes.find((route) => route.path === authState.routePosition)
-                ?.title
-            }
-          </p>
+          <div className="flex justify-between items-center w-full">
+            <p className="font-bold text-2xl">
+              {
+                pageRoutes.find(
+                  (route) => route.path === authState.routePosition
+                )?.title
+              }
+            </p>
+            {isAboveSmallScreen && (
+              <ButtonActionSetting
+                onClickProfile={() => onClickNavigation(pathRoutes.profile)}
+                onClickSignOut={() => setOpenAlertDialogSignOut(true)}
+              />
+            )}
+          </div>
           {!isAboveSmallScreen && (
             <Menu onClick={() => setIsMobileSidebarOpen(true)} />
           )}

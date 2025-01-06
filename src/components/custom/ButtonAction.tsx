@@ -25,7 +25,7 @@ export const ButtonAction = ({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem
-            className="fle gap-3"
+            className="flex gap-3 cursor-pointer"
             onClick={() => {
               setOpen(false);
               onClickUpdate();
@@ -35,7 +35,7 @@ export const ButtonAction = ({
             Edit
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="flex gap-3"
+            className="flex gap-3 cursor-pointer"
             onClick={() => {
               setOpen(false);
               onClickDelete();

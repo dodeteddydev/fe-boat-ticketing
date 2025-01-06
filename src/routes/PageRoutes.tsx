@@ -4,12 +4,14 @@ import { BoatCompanyPage } from "@/features/boat-company/pages/BoatCompanyPage";
 import { BoatPage } from "@/features/boat/pages/BoatPage";
 import { DashboardPage } from "@/features/dashboard/pages/DashboardPage";
 import { PortPage } from "@/features/port/pages/PortPage";
+import { ProfilePage } from "@/features/profile/pages/ProfilePage";
 import { SchedulePage } from "@/features/schedule/pages/SchedulePage";
 import { RouteType } from "@/types/routeType";
 
 export const pathRoutes = {
   signIn: "/signin",
   signUp: "/signup",
+  profile: "/profile",
   dashboard: "/",
   boatCompany: "/boatcompany",
   boat: "/boat",
@@ -29,6 +31,12 @@ export const pageRoutes: RouteType[] = [
     element: <SignUpPage />,
     type: "public",
     title: "Sign Up",
+  },
+  {
+    path: pathRoutes.profile,
+    element: <ProfilePage />,
+    type: "protected",
+    title: "Profile",
   },
   {
     path: pathRoutes.dashboard,

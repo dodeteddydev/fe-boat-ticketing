@@ -1,23 +1,13 @@
 import yacht from "@/assets/yacht.svg";
-import { ButtonIcon } from "@/components/custom/ButtonIcon";
 import { useAuth } from "@/features/auth/contexts/useAuth";
 import { pageRoutes, pathRoutes } from "@/routes/PageRoutes";
-import { useNavigate } from "react-router-dom";
 
 type SideBarProps = {
-  onSignOut: () => void;
+  onClickNavigation: (path: string) => void;
 };
 
-export const SideBar = ({ onSignOut }: SideBarProps) => {
-  const { authState, setRoutePosition } = useAuth();
-  const navigate = useNavigate();
-
-  const onClickNavigation = (path: string) => {
-    if (path !== authState.routePosition) {
-      setRoutePosition(path);
-      navigate(path);
-    }
-  };
+export const SideBar = ({ onClickNavigation }: SideBarProps) => {
+  const { authState } = useAuth();
 
   const session = authState.session?.split("|")[0];
 
@@ -41,8 +31,10 @@ export const SideBar = ({ onSignOut }: SideBarProps) => {
         {pageRoutes
           .filter((route) =>
             session === "SUPERADMIN"
-              ? route.type === "protected"
-              : route.type === "protected" && route.path !== pathRoutes.port
+              ? route.type === "protected" && route.path !== pathRoutes.profile
+              : route.type === "protected" &&
+                route.path !== pathRoutes.port &&
+                route.path !== pathRoutes.profile
           )
           .map((route) => (
             <p
@@ -61,10 +53,6 @@ export const SideBar = ({ onSignOut }: SideBarProps) => {
 
       {/* SIDEBAR FOOTER */}
       <footer className="mt-auto w-full">
-        <div className="flex justify-center items-center gap-2">
-          <ButtonIcon onClick={onSignOut} />
-          <p className="font-semibold">Sign Out</p>
-        </div>
         <p className="text-center text-xs mt-3">
           Copyright &copy; {new Date().getFullYear()} Boat Ticketing
         </p>

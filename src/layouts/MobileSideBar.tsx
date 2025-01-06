@@ -1,27 +1,20 @@
-import { ButtonIcon } from "@/components/custom/ButtonIcon";
+import { ButtonActionSetting } from "@/components/custom/ButtonActionSetting";
 import { useAuth } from "@/features/auth/contexts/useAuth";
 import { pageRoutes, pathRoutes } from "@/routes/PageRoutes";
 import { X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 type MobileSideBarProps = {
   closeSideBar: () => void;
   onSignOut: () => void;
+  onClickNavigation: (path: string) => void;
 };
 
 export const MobileSideBar = ({
   closeSideBar,
   onSignOut,
+  onClickNavigation,
 }: MobileSideBarProps) => {
-  const { authState, setRoutePosition } = useAuth();
-  const navigate = useNavigate();
-
-  const onClickNavigation = (path: string) => {
-    if (path !== authState.routePosition) {
-      setRoutePosition(path);
-      navigate(path);
-    }
-  };
+  const { authState } = useAuth();
 
   const session = authState.session?.split("|")[0];
 
@@ -39,8 +32,11 @@ export const MobileSideBar = ({
           {pageRoutes
             .filter((route) =>
               session === "SUPERADMIN"
-                ? route.type === "protected"
-                : route.type === "protected" && route.path !== pathRoutes.port
+                ? route.type === "protected" &&
+                  route.path !== pathRoutes.profile
+                : route.type === "protected" &&
+                  route.path !== pathRoutes.port &&
+                  route.path !== pathRoutes.profile
             )
             .map((route) => (
               <li
@@ -57,12 +53,12 @@ export const MobileSideBar = ({
       </nav>
 
       {/* SIDEBAR FOOTER */}
-      <footer className="mt-auto mb-2 w-full">
-        <div className="flex justify-center items-center gap-2">
-          <ButtonIcon onClick={onSignOut} />
-          <p className="font-semibold">Sign Out</p>
-        </div>
-        <p className="text-center text-xs mt-3">
+      <footer className="flex flex-col items-center mt-auto mb-2">
+        <ButtonActionSetting
+          onClickProfile={() => onClickNavigation(pathRoutes.profile)}
+          onClickSignOut={() => onSignOut()}
+        />
+        <p className="text-xs mt-3">
           Copyright &copy; {new Date().getFullYear()} Boat Ticketing
         </p>
       </footer>
