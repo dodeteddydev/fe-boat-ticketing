@@ -31,7 +31,14 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    if (error.response?.status === 401) {
+    const isSignInRequest = error.config?.url?.includes("/auth/signin");
+    const isSignUpRequest = error.config?.url?.includes("/auth/signup");
+
+    if (
+      error.response?.status === 401 &&
+      !isSignInRequest &&
+      !isSignUpRequest
+    ) {
       try {
         const refreshToken = await axios
           .post<SuccessResponse<{ accessToken: string }>>(

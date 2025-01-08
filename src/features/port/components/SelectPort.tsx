@@ -21,6 +21,8 @@ export const SelectPort = ({
 }: SelectPortProps) => {
   const { data, isFetching, isError, error: errorFetch } = useGetAllPort();
 
+  const dataEmpty = (data?.data?.length ?? 0) < 1;
+
   return (
     <SelectCustom
       width={100}
@@ -32,13 +34,17 @@ export const SelectPort = ({
       value={value}
       onValueChange={(value) => onValueChange && onValueChange(value)}
       selectItem={
-        <>
-          {data?.data.map((value) => (
-            <SelectItem key={value.id} value={value.id.toString()}>
-              {value.portName}-{value.portCode}
-            </SelectItem>
-          ))}
-        </>
+        dataEmpty ? (
+          <p className="p-2 text-sm">Tidak ada data</p>
+        ) : (
+          <>
+            {data?.data.map((value) => (
+              <SelectItem key={value.id} value={value.id.toString()}>
+                {value.portName}-{value.portCode}
+              </SelectItem>
+            ))}
+          </>
+        )
       }
       error={error}
       errorMessage={errorMessage}

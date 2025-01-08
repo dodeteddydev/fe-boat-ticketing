@@ -24,6 +24,8 @@ export const SelectBoatCompany = ({
     error: errorFetch,
   } = useGetAllBoatCompany();
 
+  const dataEmpty = (data?.data?.length ?? 0) < 1;
+
   return (
     <SelectCustom
       label={label}
@@ -34,13 +36,17 @@ export const SelectBoatCompany = ({
       value={value}
       onValueChange={(value) => onValueChange && onValueChange(value)}
       selectItem={
-        <>
-          {data?.data.map((value) => (
-            <SelectItem key={value.id} value={value.id.toString()}>
-              {value.companyName}
-            </SelectItem>
-          ))}
-        </>
+        dataEmpty ? (
+          <p className="p-2 text-sm">Tidak ada data</p>
+        ) : (
+          <>
+            {data?.data.map((value) => (
+              <SelectItem key={value.id} value={value.id.toString()}>
+                {value.companyName}
+              </SelectItem>
+            ))}
+          </>
+        )
       }
       error={error}
       errorMessage={errorMessage}

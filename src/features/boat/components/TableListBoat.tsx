@@ -39,7 +39,7 @@ export const TableListBoat = ({
           </TableRow>
         </TableHeader>
         <TableBodyCustom
-          colSpan={5}
+          colSpan={6}
           isError={isError}
           isLoading={isLoading}
           dataLength={data?.length}

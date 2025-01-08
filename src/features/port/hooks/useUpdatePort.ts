@@ -1,9 +1,9 @@
 import { SuccessResponse } from "@/types/successResponseType";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { PortResponse } from "../types/portResponse";
-import { PortPayload } from "../types/portPayload";
 import { PortService } from "../services/portService";
 import { ErrorResponse } from "@/types/errorResponseType";
+import { PortPayload } from "../types/PortPayload";
 
 type UseUpdatePortOptions = UseMutationOptions<
   SuccessResponse<PortResponse>,

@@ -45,7 +45,7 @@ export const TableListSchedule = ({
           </TableRow>
         </TableHeader>
         <TableBodyCustom
-          colSpan={6}
+          colSpan={7}
           isError={isError}
           isLoading={isLoading}
           dataLength={data?.length}
